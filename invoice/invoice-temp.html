@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="UTF-8">
+        <title>Фактура</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            .invoice {
+                width: 80%;
+                margin: 0 auto;
+                padding: 20px;
+                background: #f9f9f9;
+                border: 1px solid #ccc;
+            }
+            .invoice-header {
+                text-align: center;
+            }
+            .invoice-header h1 {
+                margin: 0;
+            }
+            .invoice-details {
+                margin-top: 20px;
+            }
+            .invoice-details p {
+                margin: 0;
+            }
+            .invoice-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            .invoice-table th, .invoice-table td {
+                border: 1px solid #ccc;
+                padding: 8px;
+                text-align: left;
+            }
+            .invoice-table th {
+                background: #f2f2f2;
+            }
+            .invoice-total {
+                margin-top: 20px;
+            }
+            .invoice-total p {
+                margin: 0;
+                text-align: right;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="invoice">
+            <div class="invoice-header">
+                <h1>Фактура</h1>
+            </div>
+            <div class="invoice-details">
+                    <p>
+                        <strong>Номер на фактурата:</strong> ---
+                    </p>
+                    <p>
+                        <strong>Дата на фактурата:</strong> ---
+                    </p>
+            </div>
+            <table class="invoice-table">
+                <thead>
+                <tr>
+                    <th>Описание</th>
+                    <th>Количество</th>
+                    <th>Единична цена</th>
+                    <th>Общо</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                        // Retrieve product information from the database and loop through them
+                        foreach ($products as $product) {
+                            $productName = $product['name']; // Replace with actual data
+                            $quantity = $product['quantity']; // Replace with actual data
+                            $unitPrice = $product['price']; // Replace with actual data
+                            $totalPrice = $quantity * $unitPrice;
+                            echo "<tr>";
+                echo "<td>$productName</td>";
+                echo "<td>$quantity</td>";
+                echo "<td>$unitPrice лв.</td>";
+                echo "<td>$totalPrice лв.</td>";
+                echo "</tr>";
+                }
+                ?>
+                </tbody>
+            </table>
+            <div class="invoice-total">
+                <?php
+                    // Calculate the total amount based on the products
+                    $totalAmount = array_sum(array_map(function ($product) {
+                        return $product['quantity'] * $product['price'];
+                    }, $products));
+                    echo "<p><strong>Общо:</strong> $totalAmount лв.</p>";
+                ?>
+            </div>
+        </div>
+    </body>
+</html>
